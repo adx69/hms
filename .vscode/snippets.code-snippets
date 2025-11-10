@@ -1,0 +1,132 @@
+{
+  "Next.js API Route": {
+    "prefix": "napi",
+    "body": [
+      "import { NextResponse } from 'next/server';",
+      "import connectDB from '@/lib/mongodb';",
+      "import { getServerSession } from 'next-auth';",
+      "import { authOptions } from '../auth/[...nextauth]/route';",
+      "",
+      "export async function GET() {",
+      "  try {",
+      "    const session = await getServerSession(authOptions);",
+      "    if (!session) {",
+      "      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });",
+      "    }",
+      "",
+      "    await connectDB();",
+      "    $0",
+      "    return NextResponse.json({});",
+      "  } catch (error) {",
+      "    return NextResponse.json({ error: error.message }, { status: 500 });",
+      "  }",
+      "}"
+    ],
+    "description": "Next.js API route with auth"
+  },
+  "React Component": {
+    "prefix": "rcomp",
+    "body": [
+      "'use client';",
+      "",
+      "import { useState } from 'react';",
+      "",
+      "export default function ${1:ComponentName}() {",
+      "  return (",
+      "    <div>",
+      "      $0",
+      "    </div>",
+      "  );",
+      "}"
+    ],
+    "description": "React component"
+  },
+  "Mongoose Model": {
+    "prefix": "mmodel",
+    "body": [
+      "import mongoose from 'mongoose';",
+      "",
+      "const ${1:ModelName}Schema = new mongoose.Schema({",
+      "  ${2:field}: {",
+      "    type: ${3:String},",
+      "    required: true,",
+      "  },",
+      "  createdAt: {",
+      "    type: Date,",
+      "    default: Date.now,",
+      "  },",
+      "});",
+      "",
+      "export default mongoose.models.${1:ModelName} || mongoose.model('${1:ModelName}', ${1:ModelName}Schema);"
+    ],
+    "description": "Mongoose model schema"
+  },
+  "CRUD Page": {
+    "prefix": "crudpage",
+    "body": [
+      "'use client';",
+      "",
+      "import { useEffect, useState } from 'react';",
+      "import { motion } from 'framer-motion';",
+      "import { Button } from '@/components/ui/button';",
+      "import { Card } from '@/components/ui/card';",
+      "import { ${1:someAPI} } from '@/services/api';",
+      "import { toast } from 'sonner';",
+      "",
+      "export default function ${2:PageName}() {",
+      "  const [data, setData] = useState([]);",
+      "  const [loading, setLoading] = useState(true);",
+      "",
+      "  useEffect(() => {",
+      "    fetchData();",
+      "  }, []);",
+      "",
+      "  const fetchData = async () => {",
+      "    try {",
+      "      const response = await ${1:someAPI}.getAll();",
+      "      setData(response.data);",
+      "    } catch (error) {",
+      "      console.error('Error:', error);",
+      "    } finally {",
+      "      setLoading(false);",
+      "    }",
+      "  };",
+      "",
+      "  if (loading) return <div>Loading...</div>;",
+      "",
+      "  return (",
+      "    <motion.div",
+      "      initial={{ opacity: 0, y: 20 }}",
+      "      animate={{ opacity: 1, y: 0 }}",
+      "      className=\"space-y-6\"",
+      "    >",
+      "      $0",
+      "    </motion.div>",
+      "  );",
+      "}"
+    ],
+    "description": "CRUD page template"
+  },
+  "Form Handler": {
+    "prefix": "formhandler",
+    "body": [
+      "const [formData, setFormData] = useState({",
+      "  $1: '',",
+      "});",
+      "",
+      "const handleSubmit = async (e) => {",
+      "  e.preventDefault();",
+      "  try {",
+      "    await ${2:someAPI}.create(formData);",
+      "    toast.success('Created successfully');",
+      "    $3",
+      "  } catch (error) {",
+      "    toast.error('Error creating');",
+      "  }",
+      "};"
+    ],
+    "description": "Form handler pattern"
+  }
+}
+
+

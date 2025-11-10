@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://venom:123@cluster0.juhchz4.mongodb.net/';
+// Local MongoDB connection - default database name: hospital-management
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/hospital-management';
 
 if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
@@ -20,12 +21,10 @@ async function connectDB() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
-      serverSelectionTimeoutMS: 10000, // 10 seconds
+      serverSelectionTimeoutMS: 5000, // 5 seconds for local
       socketTimeoutMS: 45000, // 45 seconds
-      connectTimeoutMS: 10000, // 10 seconds
+      connectTimeoutMS: 5000, // 5 seconds for local
       maxPoolSize: 10,
-      retryWrites: true,
-      w: 'majority',
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts)
@@ -36,7 +35,7 @@ async function connectDB() {
       .catch((error) => {
         console.error('❌ MongoDB connection error:', error.message);
         cached.promise = null;
-        throw new Error(`MongoDB connection failed: ${error.message}. Please check your network connection and MongoDB cluster status.`);
+        throw new Error(`MongoDB connection failed: ${error.message}. Please ensure MongoDB is running locally on port 27017.`);
       });
   }
 

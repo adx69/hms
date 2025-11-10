@@ -28,7 +28,7 @@ A complete, modern Hospital Management System built with Next.js, MongoDB, and T
 ### Prerequisites
 
 - Bun (package manager)
-- MongoDB connection string (already configured)
+- MongoDB installed and running locally on port 27017
 
 ### Installation
 
@@ -84,8 +84,10 @@ Create a `.env.local` file (optional, defaults are set):
 
 ```env
 NEXTAUTH_SECRET=your-secret-key-here
-MONGODB_URI=mongodb+srv://venom:123@cluster0.juhchz4.mongodb.net/hospital-management
+MONGODB_URI=mongodb://localhost:27017/hospital-management
 ```
+
+**Note**: The default connection uses local MongoDB. Make sure MongoDB is running locally on port 27017 before starting the application.
 
 ## Features in Detail
 

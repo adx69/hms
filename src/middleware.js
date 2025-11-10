@@ -38,8 +38,8 @@ export async function middleware(request) {
     }
   }
 
-  // Protect doctor routes
-  if (pathname.startsWith('/doctor')) {
+  // Protect doctor routes (singular /doctor/, not plural /doctors)
+  if (pathname.startsWith('/doctor/') || pathname === '/doctor') {
     if (!token) {
       return NextResponse.redirect(new URL('/doctor/login', request.url));
     }
@@ -48,8 +48,8 @@ export async function middleware(request) {
     }
   }
 
-  // Protect patient routes
-  if (pathname.startsWith('/patient')) {
+  // Protect patient routes (singular /patient/, not plural /patients)
+  if (pathname.startsWith('/patient/') || pathname === '/patient') {
     if (!token) {
       return NextResponse.redirect(new URL('/patient/login', request.url));
     }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, Stethoscope, Calendar, DollarSign } from 'lucide-react';
@@ -28,6 +29,7 @@ const itemVariants = {
 };
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [stats, setStats] = useState({
     totalPatients: 0,
     totalDoctors: 0,
@@ -68,6 +70,7 @@ export default function DashboardPage() {
       icon: Users,
       color: 'text-blue-600',
       bgColor: 'bg-blue-50 dark:bg-blue-950',
+      href: '/patients',
     },
     {
       title: 'Total Doctors',
@@ -75,6 +78,7 @@ export default function DashboardPage() {
       icon: Stethoscope,
       color: 'text-green-600',
       bgColor: 'bg-green-50 dark:bg-green-950',
+      href: '/doctors',
     },
     {
       title: 'Appointments',
@@ -82,6 +86,7 @@ export default function DashboardPage() {
       icon: Calendar,
       color: 'text-purple-600',
       bgColor: 'bg-purple-50 dark:bg-purple-950',
+      href: '/appointments',
     },
     {
       title: 'Revenue',
@@ -89,6 +94,7 @@ export default function DashboardPage() {
       icon: DollarSign,
       color: 'text-orange-600',
       bgColor: 'bg-orange-50 dark:bg-orange-950',
+      href: '/billing',
     },
   ];
 
@@ -116,8 +122,15 @@ export default function DashboardPage() {
         {statCards.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <motion.div key={stat.title} variants={itemVariants}>
-              <Card className="border-border shadow-lg transition-shadow hover:shadow-xl">
+            <motion.div 
+              key={stat.title} 
+              variants={itemVariants}
+              onClick={() => stat.href && router.push(stat.href)}
+              className={stat.href ? 'cursor-pointer' : ''}
+              whileHover={stat.href ? { scale: 1.02 } : {}}
+              whileTap={stat.href ? { scale: 0.98 } : {}}
+            >
+              <Card className={`border-border shadow-lg transition-all ${stat.href ? 'hover:shadow-xl hover:border-primary/50' : ''}`}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground">
                     {stat.title}
@@ -128,6 +141,11 @@ export default function DashboardPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-foreground">{stat.value}</div>
+                  {stat.href && (
+                    <p className="text-xs text-muted-foreground mt-2 hover:text-foreground">
+                      Click to view →
+                    </p>
+                  )}
                 </CardContent>
               </Card>
             </motion.div>

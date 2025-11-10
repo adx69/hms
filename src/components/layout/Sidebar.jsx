@@ -39,18 +39,22 @@ export default function Sidebar() {
         <nav className="flex-1 space-y-1 p-4">
           {menuItems.map((item) => {
             const Icon = item.icon;
-            const isActive = pathname === item.href;
+            const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
             return (
-              <Link key={item.href} href={item.href}>
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  'flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors cursor-pointer select-none',
+                  isActive
+                    ? 'bg-primary text-primary-foreground shadow-md'
+                    : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                )}
+              >
                 <motion.div
                   whileHover={{ x: 4 }}
                   whileTap={{ scale: 0.98 }}
-                  className={cn(
-                    'flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors',
-                    isActive
-                      ? 'bg-primary text-primary-foreground shadow-md'
-                      : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-                  )}
+                  className="flex items-center gap-3"
                 >
                   <Icon className="h-5 w-5" />
                   <span>{item.name}</span>
@@ -63,4 +67,6 @@ export default function Sidebar() {
     </motion.aside>
   );
 }
+
+
 
